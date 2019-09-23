@@ -33,7 +33,7 @@ router.get('/:id', (req, res) => {
 		});
 });
 
-// add new photo to user
+// add new photo to userid
 router.post('/:id', (req, res) => {
 	const { location, url, user_id } = req.body;
 	const { id } = req.params;
@@ -51,6 +51,24 @@ router.post('/:id', (req, res) => {
 		.catch(err => {
 			console.log(err);
 			res.status(500).json({ error: 'Failed to add new Photo' });
+		});
+});
+
+router.delete('/:photoId', (req, res) => {
+  // console.log('photoid 1', req.params)
+	const { photoId } = req.params
+	// console.log('photo id', photoId);
+
+	Photos.removePhotoById(photoId)
+		.then(deleted => {
+			if (deleted) {
+				res.json(204).json({ removed: deleted });
+			} else {
+				res.status(404).json({ error: 'Could not find photo with that id' });
+			}
+		})
+		.catch(err => {
+			res.status(500).json({ error: 'Failed to delete photo' });
 		});
 });
 
