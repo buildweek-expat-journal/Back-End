@@ -10,21 +10,38 @@ module.exports {
 }
 
 function getPhotos() {
-  return null
+  return db('photos')
 }
-function getUserIdPhotos() {
-  return null
+
+function getUserIdPhotos(id) {
+  return db('photos')
+    .where({user_id: id})
 }
-function addPhoto() {
-  return null
+
+function addPhoto(photo) {
+  return db('photos')
+    .insert(photo, 'id')
+    .then(ids => {
+      const[id] = ids;
+      return findPhotoById(id)
+    })
 }
-function findPhotoById() {
-  return null
+
+function findPhotoById(id) {
+  return db('photos')
+    .where({id})
+    .first()
 }
-function removePhotoById() {
-  return null
+
+function removePhotoById(id) {
+  return db('photos')
+    .where({ id })
+    .del()
 }
-function updatePhoto() {
-  return null
+
+function updatePhoto(id, changes) {
+  return db('photos')
+    .where({id})
+    .update(changes, 'id')
 }
 
