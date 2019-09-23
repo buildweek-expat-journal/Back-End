@@ -1,6 +1,8 @@
 const express = require('express');
 const Photos = require('./photos-model');
 
+const restricted = require('../auth/authenticate-middleware')
+
 const router = express.Router();
 
 //get all photos with no validation
@@ -16,8 +18,9 @@ router.get('/', (req, res) => {
 		});
 });
 
+// Restricted
 // get all photos from user id
-router.get('/:userId', (req, res) => {
+router.get('/:userId', restricted, (req, res) => {
 	const { userId } = req.params;
 	Photos.getUserIdPhotos(userId)
 		.then(photos => {
@@ -34,7 +37,7 @@ router.get('/:userId', (req, res) => {
 });
 
 // add new photo to userid
-router.post('/:id', (req, res) => {
+router.post('/:id', restricted, (req, res) => {
 	const { location, url, user_id } = req.body;
 	const { id } = req.params;
 
@@ -55,7 +58,7 @@ router.post('/:id', (req, res) => {
 });
 
 // delete photo from db
-router.delete('/:photoId', async (req, res) => {
+router.delete('/:photoId', restricted, (req, res) => {
 	// console.log('photoid 1', req.params)
 	const { photoId } = req.params;
 	// console.log('photo id', photoId);
@@ -75,7 +78,7 @@ router.delete('/:photoId', async (req, res) => {
 });
 
 // update photo
-router.put('/:photoId', (req, res) => {
+router.put('/:photoId', restricted, (req, res) => {
 	const { photoId } = req.params;
 	const { location, description, url } = req.body;
 
