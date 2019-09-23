@@ -12,20 +12,45 @@ router.get('/', (req, res) => {
 		})
 		.catch(err => {
 			console.log(err);
-			res.status(500).json({ error: 'uanble to access photos' });
+			res.status(500).json({ error: 'unable to access photos' });
 		});
 });
 
 // get all photos from user id
 router.get('/:id', (req, res) => {
-  const {id} = req.params
+	const { id } = req.params;
 	Photos.getUserIdPhotos(id)
 		.then(photos => {
-			res.status(200).json(photos);
+			if (photos) {
+				res.status(200).json(photos);
+			} else {
+				res.status(404).json({ error: 'Could not find photo with that id.' });
+			}
 		})
 		.catch(err => {
 			console.log(err);
 			res.status(500).json({ error: 'unable to locate photos for that user' });
+		});
+});
+
+// add new photo to user
+router.post('/:id', (req, res) => {
+	const { location, url, user_id } = req.body;
+	const { id } = req.params;
+
+	Photos.findPhotoById(id)
+		.then(user => {
+			if (user) {
+				Photos.addPhoto({ location, url, user_id }, id).then(photo => {
+					res.status(201).json(photo);
+				});
+			} else {
+				res.status(404).json({ error: 'Could not find user with that Id' });
+			}
+		})
+		.catch(err => {
+			console.log(err);
+			res.status(500).json({ error: 'Failed to add new Photo' });
 		});
 });
 
