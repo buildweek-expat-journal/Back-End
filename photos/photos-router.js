@@ -74,25 +74,27 @@ router.delete('/:photoId', async (req, res) => {
 		});
 });
 
+// update photo
 router.put('/:photoId', (req, res) => {
-  const {photoId} = req.params
-  const {location, description, url} = req.body
+	const { photoId } = req.params;
+	const { location, description, url } = req.body;
 
-  Photos.findPhotoById(photoId)
-  .then(photo => {
-    if(photo) {
-      Photos.updatePhoto(photoId, {location, description, url})
-      .then(updatedPhoto => {
-        res.status(201).json(updatedPhoto)
-      })
-    } else {
-      res.status(404).json({error: 'Could not find photo with that id'})
-    }
-  })
-  .catch(err => {
-    console.log(err)
-    res.status(500).json({error: 'Failed to update photo'})
-  })
-})
+	Photos.findPhotoById(photoId)
+		.then(photo => {
+			if (photo) {
+				Photos.updatePhoto(photoId, { location, description, url }).then(
+					updatedPhoto => {
+						res.status(201).json(updatedPhoto);
+					}
+				);
+			} else {
+				res.status(404).json({ error: 'Could not find photo with that id' });
+			}
+		})
+		.catch(err => {
+			console.log(err);
+			res.status(500).json({ error: 'Failed to update photo' });
+		});
+});
 
 module.exports = router;
