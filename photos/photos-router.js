@@ -48,7 +48,7 @@ router.post('/:id', restricted, (req, res) => {
 					res.status(201).json(photo);
 				});
 			} else {
-				res.status(404).json({ error: 'Could not find user with that Id' });
+				res.status(404).json({ error: 'Photo must have location, url and user_id' });
 			}
 		})
 		.catch(err => {

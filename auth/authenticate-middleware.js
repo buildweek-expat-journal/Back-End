@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
 		jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
 			if (err) {
 				console.log(err);
-				res.status(401).json({ error: 'that token does not work son' });
+				res.status(401).json({ error: 'that token does not work' });
 			} else {
 				req.decodedJwt = decodedToken;
 				console.log('decoded token', req.decodedJwt);
@@ -17,6 +17,6 @@ module.exports = (req, res, next) => {
 			}
 		});
 	} else {
-		res.status(500).json({ error: 'NO TOKEN' });
+		res.status(401).json({ error: 'NO TOKEN' });
 	}
 };
