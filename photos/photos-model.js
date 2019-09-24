@@ -34,7 +34,7 @@ function findPhotoById(id) {
 
 function removePhotoById(id) {
 	return db('photos')
-		.where({ id })
+		.where('id', id)
 		.del();
 }
 

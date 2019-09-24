@@ -1,7 +1,7 @@
 const express = require('express');
 const Photos = require('./photos-model');
 
-const restricted = require('../auth/authenticate-middleware')
+const restricted = require('../auth/authenticate-middleware');
 
 const router = express.Router();
 
@@ -48,7 +48,9 @@ router.post('/:id', restricted, (req, res) => {
 					res.status(201).json(photo);
 				});
 			} else {
-				res.status(404).json({ error: 'Photo must have location, url and user_id' });
+				res
+					.status(404)
+					.json({ error: 'Photo must have location, url and user_id' });
 			}
 		})
 		.catch(err => {
@@ -73,6 +75,7 @@ router.delete('/:photoId', restricted, (req, res) => {
 			}
 		})
 		.catch(err => {
+			console.log(err);
 			res.status(500).json({ error: 'Failed to delete photo' });
 		});
 });
