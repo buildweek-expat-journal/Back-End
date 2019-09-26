@@ -93,6 +93,5 @@ describe('server', () => {
 		// 			expect(res.status).toBe(500);
 		// 		});
 		// });
-
 	});
 });
